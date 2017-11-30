@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
-	//static ControllerC controller;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -20,8 +20,6 @@ public class Main extends Application {
 			primaryStage.show();
 			Parent root1 = FXMLLoader.load(getClass().getClassLoader().getResource("FXMLGUI.fxml"));
 			root.setCenter(root1);
-			Test_ExchangeRate test = new Test_ExchangeRate();
-			test.start(primaryStage);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
