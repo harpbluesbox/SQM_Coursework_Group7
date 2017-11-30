@@ -93,17 +93,36 @@ public class ControllerC implements Initializable {
 	
 	private boolean IsInterestInputValid(){
 		
-		boolean result;
-		
+		boolean isOnlyNumbers = false;
 		String regex_OneDecimalPointOnly = "(\\d+(?:\\.\\d+)?)";
+		String regex_IntegersOnly = "([0-9]+)";
 		String val1 = txt_InvestmentAmount.getText();
 		String val2 = txt_APR.getText();
-		String val3 = txt_Years.getText();
+		String val3 = txt_Years.getText();	
+		isOnlyNumbers = val1.matches(regex_OneDecimalPointOnly) && val2.matches(regex_OneDecimalPointOnly) && val3.matches(regex_IntegersOnly);
 		
-		result = val1.matches(regex_OneDecimalPointOnly) && val2.matches(regex_OneDecimalPointOnly) && val3.matches(regex_OneDecimalPointOnly);
-		System.out.println(result);
-		
-		return result;
+		if(isOnlyNumbers)
+		{
+		boolean isLessThan11Digits = false;
+			if(Float.parseFloat(val1) < 100000000000.0f)
+			{
+				isLessThan11Digits = true;
+			}
+			
+			boolean aprIs50OrLower = false;
+			if(Float.parseFloat(val2) <= 50.0f)
+			{
+				aprIs50OrLower = true;
+			}		
+			
+			boolean lessthan20years = false;
+			if(Integer.parseInt(val3) <= 20)
+			{
+				lessthan20years = true;
+			}
+			return isLessThan11Digits && aprIs50OrLower && lessthan20years && isOnlyNumbers;
+		}
+		return false;
 	}
 	
 	private int GetIndexFromCurrencyName(String currencyName){
@@ -159,7 +178,7 @@ public class ControllerC implements Initializable {
 			}
 			else {
 				SetFutureValue("");
-				SetInterestInfo("An error occurred! Input should be a real number only.");
+				SetInterestInfo("An error occurred! Input should be a real number only. \nInvestment Amount should be less than 10,000,000,000 \nAPR should be <= 50% \nYears should be an integer <= 20");
 			}
 		}
 	}
