@@ -180,7 +180,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write(".1");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertNotEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, "An error occured! Input should be a real number only.");
     }
     
     /*
@@ -193,7 +193,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("1.");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertNotEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, "An error occured! Input should be a real number only.");
     }
     
     /*
