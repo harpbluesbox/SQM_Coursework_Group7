@@ -1,9 +1,16 @@
 package application;
 
 import java.util.ResourceBundle;
+
+import org.junit.experimental.theories.Theories;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.css.ParsedValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -23,6 +30,34 @@ public class ControllerC implements Initializable {
 	public void initialize(java.net.URL arg0, ResourceBundle arg1){
 		currencyList = generateCurrencyList();
 		populateComboBoxes();
+		txt_InvestmentAmount.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+		        if(!arg2.matches("\\d*(\\.\\d{0,2})?")) {
+		            txt_InvestmentAmount.setText(arg1);
+		        }
+			}});
+			
+		txt_APR.textProperty().addListener(new ChangeListener<String>() {
+				@Override
+				public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+					// TODO Auto-generated method stub
+			        if(!arg2.matches("\\d*(\\.\\d{0,4})?")) {
+			            txt_APR.setText(arg1);
+			        }
+				}
+		});
+		
+		txt_Years.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+		        if(!arg2.matches("\\d*?")) {
+		            txt_Years.setText(arg1);
+		        }
+			}
+	});
 	}
 
 	public void populateComboBoxes() {
@@ -70,7 +105,6 @@ public class ControllerC implements Initializable {
 			float investmentAmount = Float.parseFloat(txt_InvestmentAmount.getText());
 			float apr = Float.parseFloat(txt_APR.getText());
 			float years = Float.parseFloat(txt_Years.getText());
-			
 			result = investmentAmount;
 			for(int i = 0; i < years; i++){
 				result += ((result/100)*apr);
@@ -107,6 +141,7 @@ public class ControllerC implements Initializable {
 			if(Float.parseFloat(val1) < 100000000000.0f)
 			{
 				isLessThan11Digits = true;
+				System.out.println("Parsed value" + Float.parseFloat(val1));
 			}
 			
 			boolean aprIs50OrLower = false;
@@ -178,8 +213,12 @@ public class ControllerC implements Initializable {
 			}
 			else {
 				SetFutureValue("");
-				SetInterestInfo("An error occurred! Input should be a real number only. \nInvestment Amount should be less than 10,000,000,000 \nAPR should be <= 50% \nYears should be an integer <= 20");
+				SetInterestInfo("An error occurred! Input should be a real number only. \n Investment Amount should be less than 10,000,000,000 \n APR should be <= 50% \n Years should be an integer <= 20");
 			}
+		}
+		else {
+			SetFutureValue("");
+			SetInterestInfo("An error occurred! Input should be a real number only. \n Investment Amount should be less than 10,000,000,000 \n APR should be <= 50% \n Years should be an integer <= 20");
 		}
 	}
 	
@@ -219,6 +258,5 @@ public class ControllerC implements Initializable {
 			return currencyRate;
 		}
 	}
-
-	
 }
+	
