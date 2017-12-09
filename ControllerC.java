@@ -94,12 +94,12 @@ public class ControllerC implements Initializable {
 		return result;
 	}
 	
-	private float CalculateInterest() {
-		float result = -1.0f;
+	private double CalculateInterest() {
+		double result = -1.0f;
 		if(IsInterestInputValid()) {
-			float investmentAmount = Float.parseFloat(txt_InvestmentAmount.getText());
-			float apr = Float.parseFloat(txt_APR.getText());
-			float years = Float.parseFloat(txt_Years.getText());
+			double investmentAmount = Double.parseDouble(txt_InvestmentAmount.getText());
+			double apr = Double.parseDouble(txt_APR.getText());
+			double years = Double.parseDouble(txt_Years.getText());
 			result = investmentAmount;
 			for(int i = 0; i < years; i++){
 				result += ((result/100)*apr);
@@ -133,14 +133,14 @@ public class ControllerC implements Initializable {
 		if(isOnlyNumbers)
 		{
 		boolean isLessThan11Digits = false;
-			if(Float.parseFloat(val1) < 100000000000.0f)
+			if(Double.parseDouble(val1) < 100000000.0f)
 			{
 				isLessThan11Digits = true;
-				System.out.println("Parsed value" + Float.parseFloat(val1));
+				System.out.println("Parsed value " + Double.parseDouble(val1));
 			}
 			
 			boolean aprIs50OrLower = false;
-			if(Float.parseFloat(val2) <= 50.0f)
+			if(Double.parseDouble(val2) <= 50.0f)
 			{
 				aprIs50OrLower = true;
 			}		
@@ -200,7 +200,7 @@ public class ControllerC implements Initializable {
 		if(!txt_InvestmentAmount.getText().isEmpty()
 				&& !txt_APR.getText().isEmpty()
 				&& !txt_Years.getText().isEmpty()) {
-			float result = CalculateInterest();
+			double result = CalculateInterest();
 			if(result != -1.0f) {
 				String resultTo2DecimalPlaces = String.format("%.2f",  result);
 				SetFutureValue(resultTo2DecimalPlaces);
@@ -254,4 +254,3 @@ public class ControllerC implements Initializable {
 		}
 	}
 }
-	

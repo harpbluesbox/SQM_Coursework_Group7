@@ -163,7 +163,7 @@ public class Test_Investment extends ApplicationTest {
 	    public void test8_DecimalPlacesAPR() {
 	    	clickOn("#txt_APR");
 	    	write("0.111111");
-	    	assertEquals("0.1111", lookup("#txt_InvestmentAmount").<TextField>query().getText());
+	    	assertEquals("0.1111", lookup("#txt_APR").<TextField>query().getText());
 	    }
 	    
 	    /*
@@ -314,7 +314,7 @@ public class Test_Investment extends ApplicationTest {
 	    @Test
 	    public void  test19_InvestmentAmountTooLarge() {
 	    	clickOn("#txt_InvestmentAmount");
-	    	write("100000000000");
+	    	write("100000000.00");
 	    	clickOn("#txt_APR");
 	    	write("1");
 	    	clickOn("#txt_Years");
@@ -348,21 +348,21 @@ public class Test_Investment extends ApplicationTest {
 	    	clickOn("#btn_CalculateInterest");
 	    	assertEquals("An error occurred! Input should be a real number only. \n Investment Amount should be less than 10,000,000,000 \n APR should be <= 50% \n Years should be an integer <= 20", lookup("#lbl_InterestInfo").<Label>query().getText());
 	    }
-	    /*
-	    //tests that correct output is when largest investment value is used
+	    
+	    //tests that correct output is displayed when largest investment value is used
 	    @Test
 	    public void test22_MaxInvestmentValue() {
 	    	clickOn("#txt_InvestmentAmount");
-	    	write("100000000000");
+	    	write("99999999.99");
 	    	clickOn("#txt_APR");
 	    	write("2");
 	    	clickOn("#txt_Years");
 	    	write("2");
 	    	clickOn("#btn_CalculateInterest");
-	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("104039997440.00"));
+	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("104039999.99"));
 	    }
-	    */
-	    //tests that correct output is when largest APR value is used
+	    
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test23_MaxAPRValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -375,7 +375,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("112.50"));
 	    }
 	    
-	    //tests that correct output is when largest APR value is used
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test24_MaxYearsValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -388,7 +388,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("1916.88"));
 	    }
 	    
-	    //tests that correct output is when largest investment value is used
+	    //tests that correct output is displayed when largest investment value is used
 	    @Test
 	    public void test25_LowestInvestmentValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -401,7 +401,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("0.00"));
 	    }
 	    
-	    //tests that correct output is when largest APR value is used
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test26_LowestAPRValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -414,7 +414,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("50.00"));
 	    }
 	    
-	    //tests that correct output is when largest APR value is used
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test27_LowestYearsValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -426,21 +426,21 @@ public class Test_Investment extends ApplicationTest {
 	    	clickOn("#btn_CalculateInterest");
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("50.00"));
 	    }
-	    /*
-	    //tests that correct output is when largest investment value is used
+	    
+	    //tests that correct output is displayed when largest investment value is used
 	    @Test
 	    public void test28_BelowMaxInvestmentValue() {
 	    	clickOn("#txt_InvestmentAmount");
-	    	write("0");
+	    	write("99999999.98");
 	    	clickOn("#txt_APR");
-	    	write("10");
+	    	write("2");
 	    	clickOn("#txt_Years");
-	    	write("10");
+	    	write("2");
 	    	clickOn("#btn_CalculateInterest");
-	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("0.00"));
+	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("104039999.98"));
 	    }
-	    */
-	    //tests that correct output is when largest APR value is used
+	    
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test29_BelowMaxAPRValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -453,7 +453,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("112.50"));
 	    }
 	    
-	    //tests that correct output is when largest APR value is used
+	    //tests that correct output is displayed when largest APR value is used
 	    @Test
 	    public void test30_BelowMaxYearsValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -466,7 +466,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("1597.40"));
 	    }
 	    
-	    //tests that correct output is when largest investment value is used
+	    //tests that correct output is displayed when largest investment value is used
 	    @Test
 	    public void test31_NominalInvestmentValue() {
 	    	clickOn("#txt_InvestmentAmount");
@@ -492,7 +492,7 @@ public class Test_Investment extends ApplicationTest {
 	    	verifyThat("#txt_FutureValue", NodeMatchers.hasText("15.88"));
 	    }
 	    
-	    //tests that correct output is when nominal APR value is used
+	    //tests that correct output is displayed when nominal APR value is used
 	    @Test
 	    public void test33_NominalYearsValue() {
 	    	clickOn("#txt_InvestmentAmount");
