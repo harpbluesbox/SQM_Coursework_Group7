@@ -26,17 +26,6 @@ public class ControllerC implements Initializable {
 		currencyList = generateCurrencyList();
 		populateComboBoxes();
 		
-		//adds a listener to the Exchange Rate input textbox so that invalid inputs are sanitised before they are used by the program
-		txt_Input.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				// TODO Auto-generated method stub
-		        if(!arg2.matches("\\d*(\\.\\d{0,2})?")) //regex defining an integer or decimal with up to 2 decimal places
-		        {
-		            txt_Input.setText(arg1);
-		        }
-			}});
-		
 		//adds a listener to the Investment Amount textbox so that invalid inputs are sanitised before they are used by the program
 		txt_InvestmentAmount.textProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -92,19 +81,19 @@ public class ControllerC implements Initializable {
 	//generate an array which contains all 5 currency objects
 	public Currency[] generateCurrencyList() {
 		Currency[] currencyList = new Currency[5];
-		currencyList[0] = new Currency("Australia(AUD)", new float[] {1.0f,0.97f,0.64f,0.58f, 0.76f});
-		currencyList[1] = new Currency("Canada(CAD)", new float[] {1.03f,1.0f,0.67f,0.59f,0.78f});
-		currencyList[2] = new Currency("European Union(EUR)", new float[] {1.55f,1.5f,1.0f, 0.89f,1.18f});
-		currencyList[3] = new Currency("United Kingdom(GBP)", new float[] {1.74f,1.68f,1.12f,1.0f,1.32f});
-		currencyList[4] = new Currency("United States(USD)", new float[] {1.32f, 1.28f, 0.85f, 0.76f, 1.0f});
+		currencyList[0] = new Currency("Australia(AUD)", new Double[] {1.0,0.97,0.64,0.58, 0.76});
+		currencyList[1] = new Currency("Canada(CAD)", new Double[] {1.03,1.0,0.67,0.59,0.78});
+		currencyList[2] = new Currency("European Union(EUR)", new Double[] {1.55,1.5,1.0, 0.89,1.18});
+		currencyList[3] = new Currency("United Kingdom(GBP)", new Double[] {1.74,1.68,1.12,1.0,1.32});
+		currencyList[4] = new Currency("United States(USD)", new Double[] {1.32, 1.28, 0.85, 0.76, 1.0});
 		return currencyList;
 	}
 	
 	//function to calculate the exchange rate from one currency to another
-	private float CalculateExchangeRate(){
-		float result = -1.0f;
+	private Double CalculateExchangeRate(){
+		Double result = -1.0;
 		if(IsExchangeRateInputValid()){
-			float rate = 0.0f;
+			Double rate = 0.0;
 			String inputCurrencyName = cbx_Input.getValue(); //get input currency
 			String outputCurrencyName = cbx_Output.getValue(); //get output currency
 			int fromIndex = GetIndexFromCurrencyName(inputCurrencyName);
@@ -114,7 +103,7 @@ public class ControllerC implements Initializable {
 				rate = currencyList[fromIndex].getCurrencyRate()[toIndex]; //get the currency exchange rate multiplier
 			}
 			
-			result = Float.parseFloat(txt_Input.getText()) * rate; //multiply the input amount by the exchange rate multiplier
+			result = Double.parseDouble(txt_Input.getText()) * rate; //multiply the input amount by the exchange rate multiplier
 		}
 		return result; //return the new amount
 	}
@@ -143,6 +132,9 @@ public class ControllerC implements Initializable {
 		String val = txt_Input.getText(); //get the input amount
 		
 		result = val.matches(regex_OneDecimalPointOnly); //boolean value defining whether input is valid
+		
+		if(!result)
+			return result;
 		
 		//test whether inputs is less than 9 digits long
 		boolean isLessThan9Digits = false;
@@ -222,7 +214,7 @@ public class ControllerC implements Initializable {
 	//event handler fired when the calculate exchange rate button is clicked
 	public void btn_CalculateExchangeRate_OnClick(){
 		if(!txt_Input.getText().isEmpty()) {
-			float result = CalculateExchangeRate(); //calculate the exchange rate
+			Double result = CalculateExchangeRate(); //calculate the exchange rate
 			if(result != -1.0f){
 				String resultTo2DecimalPlaces = String.format("%.2f", result); //format the result to 2 decimal places
 				SetExchangeRateOutput(resultTo2DecimalPlaces);
@@ -288,9 +280,9 @@ public class ControllerC implements Initializable {
 	//class to hold currency name and currency exchange rates
 	public class Currency{
 		private String currencyName;
-		private float[] currencyRate;
+		private Double[] currencyRate;
 		
-		public Currency(String name, float[] rate) {
+		public Currency(String name, Double[] rate) {
 			this.currencyName = name;
 			this.currencyRate = rate;
 		}
@@ -298,7 +290,7 @@ public class ControllerC implements Initializable {
 		public String getCurrencyName() {
 			return currencyName;
 		}
-		public float[] getCurrencyRate() {
+		public Double[] getCurrencyRate() {
 			return currencyRate;
 		}
 	}
