@@ -37,6 +37,8 @@ public class Test_ExchangeRate extends ApplicationTest {
     Label lbl_ExchangeRateInfo;
     Parent mainNode;
     
+    final String errorMessage_ExchangeRateCalculator = "An error occured! Input should be a real number that is less than 9 digits long.";
+    
     /* This operation comes from ApplicationTest and loads the GUI to test. */
     @Override
     public void start(Stage stage) throws Exception {
@@ -57,7 +59,6 @@ public class Test_ExchangeRate extends ApplicationTest {
 
     @After
     public void tearDown () throws Exception {
-    	TimeUnit.SECONDS.sleep(1);
     	FxToolkit.hideStage();
     }
     
@@ -80,7 +81,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("-1.0");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -96,6 +97,30 @@ public class Test_ExchangeRate extends ApplicationTest {
     }
     
     /*
+    tests that an input of 99999999.99 returns an output of 99999999.99
+    */
+   @Test
+   public void testExchangeRateInput_HighestValue() {
+   	clickOn("#txt_Input");
+   	write("99999999.99");
+   	clickOn("#btn_CalculateExchangeRate");
+   	String outputText = txt_Output.getText();
+	assertEquals(outputText, "99999999.99");
+   }
+   
+   /*
+   tests that an input of 100000000.0 returns an error
+   */
+  @Test
+  public void testExchangeRateInput_TooHigh() {
+  	clickOn("#txt_Input");
+  	write("100000000.0");
+  	clickOn("#btn_CalculateExchangeRate");
+	String labelText = lbl_ExchangeRateInfo.getText();
+	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
+  }
+    
+    /*
      tests that non-numerical inputs are rejected
      */
     @Test
@@ -104,7 +129,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("abc");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -117,7 +142,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("1e1");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -130,7 +155,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("0.1e");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -143,7 +168,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("1..1");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -155,7 +180,8 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("1");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertNotEquals(labelText, "An error occured! Input should be a real number only.");
+       	String outputText = txt_Output.getText();
+    	assertEquals(outputText, "1.00");
     }
     
     /*
@@ -166,8 +192,8 @@ public class Test_ExchangeRate extends ApplicationTest {
     	clickOn("#txt_Input");
     	write("0.56");
     	clickOn("#btn_CalculateExchangeRate");
-    	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertNotEquals(labelText, "An error occured! Input should be a real number only.");
+       	String outputText = txt_Output.getText();
+    	assertEquals(outputText, "0.56");
     }
     
     /*
@@ -180,7 +206,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write(".1");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
@@ -193,7 +219,7 @@ public class Test_ExchangeRate extends ApplicationTest {
     	write("1.");
     	clickOn("#btn_CalculateExchangeRate");
     	String labelText = lbl_ExchangeRateInfo.getText();
-    	assertEquals(labelText, "An error occured! Input should be a real number only.");
+    	assertEquals(labelText, errorMessage_ExchangeRateCalculator);
     }
     
     /*
