@@ -26,6 +26,17 @@ public class ControllerC implements Initializable {
 		currencyList = generateCurrencyList();
 		populateComboBoxes();
 		
+		//adds a listener to the Exchange Rate input textbox so that invalid inputs are sanitised before they are used by the program
+		txt_Input.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+				// TODO Auto-generated method stub
+		        if(!arg2.matches("\\d*(\\.\\d{0,2})?")) //regex defining an integer or decimal with up to 2 decimal places
+		        {
+		            txt_Input.setText(arg1);
+		        }
+			}});
+		
 		//adds a listener to the Investment Amount textbox so that invalid inputs are sanitised before they are used by the program
 		txt_InvestmentAmount.textProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -133,7 +144,14 @@ public class ControllerC implements Initializable {
 		
 		result = val.matches(regex_OneDecimalPointOnly); //boolean value defining whether input is valid
 		
-		return result;
+		//test whether inputs is less than 9 digits long
+		boolean isLessThan9Digits = false;
+		if(Double.parseDouble(val) < 100000000.0f)
+		{
+			isLessThan9Digits = true;
+		}
+		
+		return result && isLessThan9Digits;
 	}
 	
 	//function to test whether the interest inputs are valid
@@ -218,7 +236,7 @@ public class ControllerC implements Initializable {
 			else {
 				//if there is an error, show an error message
 				SetExchangeRateOutput("");
-				SetExchangeRateInfo("An error occured! Input should be a real number only.");
+				SetExchangeRateInfo("An error occured! Input should be a real number that is less than 9 digits long.");
 			}
 		}
 	}
